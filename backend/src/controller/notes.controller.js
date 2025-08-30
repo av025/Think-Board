@@ -17,13 +17,13 @@ export const getAllNotesController = async (_, response) => {
 export const getNotesByIdController = async (request, response) => {
   const { id } = request.params;
   try {
+    const noteById = await Note.findById(id);
     if (!noteById) {
       return response
         .status(404)
         .json({ success: false, message: "Note Not Found" });
     }
 
-    const noteById = await Note.findById(id);
     response.status(200).json({
       success: true,
       message: "Successfully Fetch Note By Id",
@@ -71,7 +71,7 @@ export const updateNoteController = async (request, response) => {
   const { id } = request.params;
 
   try {
-    const updateNote = await Note.findByIdAndUpdate(id, { title, content });
+    const updateNote = await Note.findByIdAndUpdate(id, { title, content }, {new:true});
 
     if (!updateNote.title || !updateNote.content) {
       return response
