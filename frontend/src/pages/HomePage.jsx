@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import MainLayout from "../layout/Layout";
 import toast from "react-hot-toast";
 import RateLimitedComponent from "../components/RateLimitedComponent/RateLimitedComponent";
-import axiosInstance from "../helpers/axiosInstances";
 import Loader from "../components/Loader/Loader";
 import NotesComponent from "../components/NotesComponent/NotesComponent";
+import API from "../helpers/axiosInstances";
 
 function HomePage() {
   const [isRateLimited, setIsRateLimited] = useState(false);
@@ -14,7 +14,7 @@ function HomePage() {
   const fetchAllNotes = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get("/notes");
+      const response = await API.get("/notes");
       setNotes(response?.data);
       setIsRateLimited(false);
       setLoading(false);
@@ -35,8 +35,9 @@ function HomePage() {
 
   return (
     <div className="min-h-screen">
+      <MainLayout>
         {isRateLimited && <RateLimitedComponent />}
-        {loading && <Loader />}
+        {loading && <Loader loaderWidth={"w-20"} />}
         {notes.length > 0 && !isRateLimited && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 m-4 p-2">
             {notes.map((note) => {
@@ -46,12 +47,13 @@ function HomePage() {
                   id={note._id}
                   title={note.title}
                   content={note.content}
-                  createdAt = {note.createdAt}
+                  createdAt={note.createdAt}
                 />
               );
             })}
           </div>
         )}
+      </MainLayout>
     </div>
   );
 }
