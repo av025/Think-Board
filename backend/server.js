@@ -3,12 +3,15 @@ import dotenv from "dotenv";
 import { connectDB } from "./src/config/db.js";
 import notesRoutes from "./src/routes/notes.route.js";
 import rateLimiter from "./src/middleware/rateLimiter.js";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 
 const SERVER_PORT = process.env.BACKEND_PORT;
-
+app.use(cors({
+  origin: process.env.FRONTEND_URL
+}))
 app.use(express.json());
 app.use(rateLimiter);
 app.use("/api/notes", notesRoutes);

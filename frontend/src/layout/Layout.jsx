@@ -4,6 +4,7 @@ function MainLayout({children}){
     return <>
       <Navbar/> 
       {children}
+       
     </>
 }
 
