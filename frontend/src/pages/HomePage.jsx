@@ -5,6 +5,7 @@ import RateLimitedComponent from "../components/RateLimitedComponent/RateLimited
 import Loader from "../components/Loader/Loader";
 import NotesComponent from "../components/NotesComponent/NotesComponent";
 import API from "../helpers/axiosInstances";
+import NotesNotFound from "../components/NotesNotFound/NotesNotFound";
 
 function HomePage() {
   const [isRateLimited, setIsRateLimited] = useState(false);
@@ -36,8 +37,8 @@ function HomePage() {
   return (
     <div className="min-h-screen">
       <MainLayout>
+        { notes.length === 0 && !isRateLimited && <NotesNotFound/>}
         {isRateLimited && <RateLimitedComponent />}
-        {loading && <Loader loaderWidth={"w-20"} />}
         {notes.length > 0 && !isRateLimited && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 m-4 p-2">
             {notes.map((note) => {
@@ -48,6 +49,7 @@ function HomePage() {
                   title={note.title}
                   content={note.content}
                   createdAt={note.createdAt}
+                  setNotes={setNotes}
                 />
               );
             })}
