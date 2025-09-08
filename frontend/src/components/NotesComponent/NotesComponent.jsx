@@ -5,25 +5,8 @@ import API from "../../helpers/axiosInstances";
 import RateLimitedComponent from "../RateLimitedComponent/RateLimitedComponent";
 import toast from "react-hot-toast";
 
-function NotesComponent({ title, content, id, createdAt, setNotes }) {
-  const deleteNotes = async (event, id) => {
-    event.preventDefault();
-    if (!window.confirm("Are you sure you want to delete this note ?")) return;
+function NotesComponent({ title, content, id, createdAt,deleteNotes }) {
 
-    try {
-      await API.delete(`/notes/${id}`);
-      toast.success("Note Deleted Successfully");
-      setNotes((prev) => prev.filter(note => note._id !== id) )
-
-    } catch (error) {
-      console.error("Error while Deleting the Notes", error.message);
-      if (error?.response?.status === 429) {
-        <RateLimitedComponent />;
-      } else {
-        toast.error("Getting Error while Deleting Notes");
-      }
-    }
-  };
 
   return (
     <Link

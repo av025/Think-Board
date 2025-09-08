@@ -32,7 +32,7 @@ function CreatePage() {
 
   function handleFormSubmit(event) {
     event.preventDefault();
-    if (!title.trim() || !content.trim()) {
+    if (!title.trim() && !content.trim()) {
       toast.error("All Fields are Required");
       return;
     }
